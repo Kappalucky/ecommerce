@@ -2,12 +2,20 @@
 
 # Python imports
 # Django imports
-from decimal import Context
 from django.shortcuts import render
 
 # 3rd party apps
 # Local app imports
+from .cart import Cart
 
 
-def cart(request):
-    return render(request, 'cart.html')
+def cart_detail(request):
+
+    cart = Cart(request)
+    print(cart)
+
+    context = {
+        'cart': cart
+    }
+
+    return render(request, 'cart.html', context)
