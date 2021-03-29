@@ -10,44 +10,49 @@ from django.db import models
 
 class Category(models.Model):
 
-  """
-    Category model
-      * Title
-      * Slug
     """
+      Category model
+        * Title
+        * Slug
+      """
 
-  title = models.CharField(max_length=255)
-  slug = models.SlugField(max_length=255)
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
+    ordering = models.IntegerField(default=0)
 
-  class Meta:
-    ordering = ('title', 'slug')
-    verbose_name = 'Category'
-    verbose_name_plural = 'Categories'
+    class Meta:
+        ordering = ('ordering',)
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
 
-  def __str__(self):
-    return self.title
+    def __str__(self):
+        return self.title
+
 
 class Product(models.Model):
 
-  """
-    Product model
-      * Title
-      * Slug
-      * Description
-      * Price
-      * category
     """
+      Product model
+        * Title
+        * Slug
+        * Description
+        * Price
+        * category
+      """
 
-  title = models.CharField(max_length=255)
-  slug = models.SlugField(max_length=255)
-  description = models.TextField(blank=True, null=True)
-  price = models.FloatField()
-  category = models.ForeignKey('category', related_name='products', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    price = models.FloatField()
+    date_added = models.DateTimeField(auto_now_add=True)
+    is_featured = models.BooleanField(default=False)
+    category = models.ForeignKey(
+        'category', related_name='products', on_delete=models.CASCADE)
 
-  class Meta:
-    ordering = ('title', 'price')
-    verbose_name = 'Product'
-    verbose_name_plural = 'products'
+    class Meta:
+        ordering = ('-date_added',)
+        verbose_name = 'Product'
+        verbose_name_plural = 'products'
 
-  def __str__(self):
-    return self.title
+    def __str__(self):
+        return self.title

@@ -8,12 +8,13 @@ from django.contrib import admin
 # Local app imports
 from .models import Category, Product
 
+
 class Categoryadmin(admin.ModelAdmin):
     """View details relating to Category objects"""
 
     #form = CategoryForm
     model = Category
-    list_display = ('__str__', 'title', 'slug',)
+    list_display = ('__str__', 'title', 'slug', 'ordering')
     list_filter = ('title',)
     fieldsets = (
         (None, {
@@ -21,11 +22,13 @@ class Categoryadmin(admin.ModelAdmin):
             'fields': (
                 'title',
                 'slug',
+                'ordering'
             ),
         }),
     )
     search_fields = ('title', 'slug',)
-    ordering = ('title', 'slug')
+    ordering = ('title', 'slug', 'ordering')
+
 
 class Productadmin(admin.ModelAdmin):
     """View details relating to Product objects"""
@@ -42,12 +45,14 @@ class Productadmin(admin.ModelAdmin):
                 'slug',
                 'description',
                 'price',
-                'category'
+                'category',
+                'is_featured'
             ),
         }),
     )
     search_fields = ('title', 'slug', 'price', 'category')
     ordering = ('title', 'slug', 'price')
+
 
 admin.site.register(Category, Categoryadmin,)
 admin.site.register(Product, Productadmin,)
