@@ -35,3 +35,14 @@ def api_remove_from_cart(request):
     cart.remove(product_id)
 
     return JsonResponse(jsonresponse)
+
+
+def api_increment_quantity(request):
+    data = json.loads(request.body)
+    jsonresponse = {'success': True}
+    product_id = str(data['product_id'])
+
+    cart = Cart(request)
+    cart.remove(product_id)
+
+    return JsonResponse(jsonresponse)
