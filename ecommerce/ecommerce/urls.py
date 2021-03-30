@@ -17,6 +17,8 @@ Including another URLconf
 # Django imports
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 # 3rd party apps
 # Local app imports
@@ -26,6 +28,9 @@ from apps.cart.views import cart_detail
 from apps.store.api import api_add_to_cart, api_remove_from_cart, api_increment_quantity
 
 urlpatterns = [
+    # * Admin urls
+    path('admin/', admin.site.urls),
+
     # * Core urls
     path('', frontpage, name='frontpage'),
     path('contact/', contact, name='contact'),
@@ -49,6 +54,4 @@ urlpatterns = [
     path('<slug:slug>/',
          category_detail, name='category_detail'),
 
-    # * Admin urls
-    path('admin/', admin.site.urls),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

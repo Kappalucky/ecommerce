@@ -46,7 +46,9 @@ class Productadmin(admin.ModelAdmin):
                 'description',
                 'price',
                 'category',
-                'is_featured'
+                'is_featured',
+                'image',
+                'thumbnail'
             ),
         }),
     )
