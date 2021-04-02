@@ -1,39 +1,44 @@
 """Order Admin: Details to show in admin page"""
 
 # Python imports
+import datetime
+
 # Django imports
+from django.urls import reverse
 from django.contrib import admin
 
 # 3rd party apps
 # Local app imports
 from .models import Order, OrderItem
 
+def order_name(obj):
+    return '%s %s' % (obj.first_name, obj.last_name)
 
-'''class Orderadmin(admin.ModelAdmin):
+order_name.short_description = 'Name'
+
+def admin_order_shipped(modelAdmin, request, queryset):
+    for order in queryset:
+        order.shipped_date = datetime.datetime.now()
+        order.status = Order.SHIPPED
+        order.save()
+    return
+
+admin_order_shipped.short_description = 'Set shipped'
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    raw_id_fields = ['product']
+
+
+class OrderAdmin(admin.ModelAdmin):
     """View details relating to Order objects"""
 
-    #form = CategoryForm
-    model = Order
-    list_display = ('__str__', 'email', 'paid', 'paid_amount')
-    list_filter = ('paid',)
-    fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': (
-                'first_name',
-                'last_name',
-                'email',
-                'zipcode',
-                'place',
-                'paid',
-                'paid_amount'
-            ),
-        }),
-    )
-    search_fields = ('__str__',)
-    ordering = ('paid', 'paid_amount',)
+    list_display = ['id', order_name, 'status', 'created_at']
+    list_filter = ['created_at', 'status']
+    search_fields = ['first_name', 'address']
+    inlines = [OrderItemInline]
+    actions = [admin_order_shipped]
 
-
+'''
 class OrderItemadmin(admin.ModelAdmin):
     """View details relating to Order Item objects"""
 
@@ -56,5 +61,5 @@ class OrderItemadmin(admin.ModelAdmin):
     ordering = ('__str__',)
 '''
 
-admin.site.register(Order)
+admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem)
