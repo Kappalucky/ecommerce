@@ -7,6 +7,7 @@ class Order(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
+    address = models.CharField(max_length=255)
     zipcode = models.CharField(max_length=10)
     place = models.CharField(max_length=100)
 
@@ -22,7 +23,7 @@ class Order(models.Model):
         verbose_name_plural = 'Orders'
 
     def __str__(self):
-        return self.first_name
+        return '%s' % self.first_name
 
 
 class OrderItem(models.Model):
@@ -38,4 +39,4 @@ class OrderItem(models.Model):
         verbose_name_plural = 'Order Items'
 
     def __str__(self):
-        return self.id
+        return '%s' % self.id

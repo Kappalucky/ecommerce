@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+
 from pathlib import Path
 import os
 
@@ -27,6 +28,10 @@ SECRET_KEY = '9_7%a8*y_28efpky0c%*2=e*l#gka8x6wqn7@g!%k0t0(isk_p'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# STRIPE API KEYS
+STRIPE_API_KEY_PUBLISHABLE = "pk_test_r2CbHaJQL7wH5zUFTikVwz82"
+STRIPE_API_KEY_HIDDEN = "sk_test_k65fh8cxN3ubJYhx2HLSOhEk"
 
 # Cart
 
@@ -71,7 +76,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'apps.store.context_processors.menu_categories'
+                'apps.store.context_processors.menu_categories',
+                #'apps.cart.context_processors.cart',
             ],
         },
     },

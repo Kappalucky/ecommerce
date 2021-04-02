@@ -9,7 +9,7 @@ from django.contrib import admin
 from .models import Order, OrderItem
 
 
-class Orderadmin(admin.ModelAdmin):
+'''class Orderadmin(admin.ModelAdmin):
     """View details relating to Order objects"""
 
     #form = CategoryForm
@@ -54,7 +54,7 @@ class OrderItemadmin(admin.ModelAdmin):
     )
     search_fields = ('product', 'price',)
     ordering = ('__str__',)
+'''
 
-
-admin.site.register(Order, Orderadmin,)
-admin.site.register(OrderItem, OrderItemadmin,)
+admin.site.register(Order)
+admin.site.register(OrderItem)

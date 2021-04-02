@@ -25,7 +25,7 @@ from django.conf.urls.static import static
 from apps.core.views import frontpage, contact, about
 from apps.store.views import product_detail, category_detail
 from apps.cart.views import cart_detail
-from apps.store.api import api_add_to_cart, api_remove_from_cart, api_increment_quantity
+from apps.store.api import api_add_to_cart, api_remove_from_cart, api_increment_quantity, api_checkout
 
 urlpatterns = [
     # * Admin urls
@@ -47,6 +47,8 @@ urlpatterns = [
          name='api_increment_quantity'),
     path('api/remove_from_cart/', api_remove_from_cart,
          name='api_remove_from_cart'),
+    path('api/checkout/', api_checkout,
+         name='api_checkout'),
 
     # * Store urls
     path('<slug:category_slug>/<slug:slug>/',
