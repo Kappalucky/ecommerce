@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'apps.store',  # store functionality
     'apps.cart',  # cart functionality
     'apps.order',   # order functionality
+    'apps.coupon',  # coupon functionality
 ]
 
 MIDDLEWARE = [

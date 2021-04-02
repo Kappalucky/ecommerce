@@ -32,11 +32,26 @@
             <td></td>
             <td>[[totalCost]]</td>
           </tr>
+
+          <tr v-if="coupon_value">
+            <td colspan="3">Total cost with coupon:</td>
+            <td>[[ totalCostWithCoupon ]]</td>
+          </tr>
         </tfoot>
       </table>
+
+      <hr>
+
+      <input type="hidden" v-model="coupon_value">
+
+      Code:<br>
+      <input type="text" v-model="coupon_code"><br>
+
+      <button @click="applyCoupon()">Apply</button>
+      <hr>
     </div>
 
-    <form v-on:submit.prevent="submitForm()">
+    <form v-on:submit.prevent="buy()">
       <div class="field">
         <div class="control">
           <label>First Name</label>
@@ -96,7 +111,6 @@
       </div>
     </article>
   </div>
-  <button @click="buy()">Check out</button>
 </div>
 {% endblock content %}
 
@@ -116,6 +130,8 @@
         zipcode: '',
         place: '',
         products: [{{productsstring | safe}}],
+        coupon_value: 0,
+        coupon_code: '',
         errors: [],
       };
     },
@@ -125,21 +141,52 @@
 					},
           totalCost: function() {
             return store.state.totalCost;
-          }
+          },
+          totalCostWithCoupon: function() {
+            if (this.coupon_value > 0) {
+              return store.state.totalCost * (parseInt(this.coupon_value) / 100)
+            } else {
+              return store.state.totalCost;
+            }
+          },
 				},
     mounted() {
       console.log('mounted');
     },
     methods: {
+      applyCoupon() {
+        if (this.coupon_code !== '') {
+          fetch('/api/can_use/?coupon_code=' + this.coupon_code, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFTOKEN': '{{ csrf_token }}'
+            },
+            credentials: 'same-origin',
+          })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            if (data.amount) {
+              this.coupon_value = parseInt(data.amount)
+            } else {
+              this.coupon_value = 0
+            }
+          });
+        }
+      },
       buy() {
 
         let data = {
-          first_name: this.first_name,
-          last_name: this.last_name,
-          email: this.email,
-          address: this.address,
-          zipcode: this.zipcode,
-          place: this.place,
+          'first_name': this.first_name,
+          'last_name': this.last_name,
+          'email': this.email,
+          'address': this.address,
+          'zipcode': this.zipcode,
+          'place': this.place,
+          'coupon_code': this.coupon_code
+
         };
 
         if (data.first_name === '') {

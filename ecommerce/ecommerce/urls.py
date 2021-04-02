@@ -28,6 +28,7 @@ from apps.core.views import frontpage, contact, about
 from apps.store.views import product_detail, category_detail
 from apps.cart.views import cart_detail, success
 from apps.store.api import api_add_to_cart, api_remove_from_cart, api_increment_quantity, api_checkout, create_checkout_session
+from apps.coupon.api import api_can_use
 
 urlpatterns = [
     # * Admin urls
@@ -44,7 +45,7 @@ urlpatterns = [
     path('cart/', cart_detail, name='cart'),
     path('cart/success/', success, name='success'),
 
-    # * API urls
+    # * Cart API urls
 
     path('api/create_checkout_session/', create_checkout_session, name='create_checkout_session'),
     path('api/add_to_cart/', api_add_to_cart, name='api_add_to_cart'),
@@ -54,6 +55,10 @@ urlpatterns = [
          name='api_remove_from_cart'),
     path('api/checkout/', api_checkout,
          name='api_checkout'),
+
+    # * Coupon API urls
+
+    path('api/can_use/', api_can_use, name='api_can_use'),
 
     # * Store urls
     path('<slug:category_slug>/<slug:slug>/',
