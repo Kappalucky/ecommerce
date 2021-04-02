@@ -2,6 +2,7 @@
 
 # Python imports
 # Django imports
+from django.conf import settings
 from django.shortcuts import render
 
 # 3rd party apps
@@ -23,7 +24,13 @@ def cart_detail(request):
 
     context = {
         'cart': cart,
-        'productsstring': productsstring
+        'pub_key': settings.STRIPE_API_KEY_PUBLISHABLE,
+        'productsstring': productsstring.rstrip(',')
     }
 
     return render(request, 'cart.html', context)
+
+def success(request):
+    cart = Cart(request)
+    cart.clear()
+    return render(request, 'success.html')

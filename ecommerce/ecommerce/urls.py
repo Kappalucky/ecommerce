@@ -15,6 +15,7 @@ Including another URLconf
 """
 # Python imports
 # Django imports
+from os import name
 from django.contrib import admin
 from django.urls import path
 from django.conf import settings
@@ -22,10 +23,11 @@ from django.conf.urls.static import static
 
 # 3rd party apps
 # Local app imports
+from apps.cart.webhook import webhook
 from apps.core.views import frontpage, contact, about
 from apps.store.views import product_detail, category_detail
-from apps.cart.views import cart_detail
-from apps.store.api import api_add_to_cart, api_remove_from_cart, api_increment_quantity, api_checkout
+from apps.cart.views import cart_detail, success
+from apps.store.api import api_add_to_cart, api_remove_from_cart, api_increment_quantity, api_checkout, create_checkout_session
 
 urlpatterns = [
     # * Admin urls
@@ -38,10 +40,13 @@ urlpatterns = [
 
     # * Cart urls
 
+    path('hooks/', webhook, name='webhook'),
     path('cart/', cart_detail, name='cart'),
+    path('cart/success/', success, name='success'),
 
     # * API urls
 
+    path('api/create_checkout_session/', create_checkout_session, name='create_checkout_session'),
     path('api/add_to_cart/', api_add_to_cart, name='api_add_to_cart'),
     path('api/increment_quantity/', api_increment_quantity,
          name='api_increment_quantity'),

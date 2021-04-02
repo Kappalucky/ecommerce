@@ -14,8 +14,9 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     paid = models.BooleanField(default=False)
-
     paid_amount = models.FloatField(blank=True, null=True)
+
+    payment_intent = models.CharField(max_length=255)
 
     class Meta:
         ordering = ('created_at',)
