@@ -29,6 +29,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = '1025'
+
 # STRIPE API KEYS
 STRIPE_API_KEY_PUBLISHABLE = "pk_test_"
 STRIPE_API_KEY_HIDDEN = "sk_test_"

@@ -25,7 +25,7 @@ from django.contrib.sitemaps.views import sitemap
 # 3rd party apps
 # Local app imports
 from apps.cart.webhook import webhook
-from apps.core.views import frontpage, contact, about
+from apps.core.views import frontpage, contact, about, order_confirmation
 from apps.store.views import product_detail, category_detail, search
 from apps.cart.views import cart_detail, success
 from apps.store.api import api_add_to_cart, api_remove_from_cart, api_increment_quantity, api_checkout, create_checkout_session
@@ -43,7 +43,7 @@ urlpatterns = [
     path('', frontpage, name='frontpage'),
     path('contact/', contact, name='contact'),
     path('about/', about, name='about'),
-
+    path('order_confirmation/', order_confirmation, name="order_confirmation"),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 
     # * Cart urls

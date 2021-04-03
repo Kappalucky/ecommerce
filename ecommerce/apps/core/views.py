@@ -8,6 +8,11 @@ from django.shortcuts import render
 # 3rd party apps
 # Local app imports
 from apps.store.models import Product
+from apps.order.models import Order
+
+def order_confirmation(request):
+    order = Order.objects.get(pk=1)
+    return render(request, 'order_confirmation.html', {'order': order})
 
 
 def frontpage(request):

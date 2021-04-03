@@ -6,7 +6,7 @@ from django.contrib import admin
 
 # 3rd party apps
 # Local app imports
-from .models import Category, Product
+from .models import Category, Product, ProductImage
 
 
 class Categoryadmin(admin.ModelAdmin):
@@ -58,3 +58,4 @@ class Productadmin(admin.ModelAdmin):
 
 admin.site.register(Category, Categoryadmin,)
 admin.site.register(Product, Productadmin,)
+admin.site.register(ProductImage)

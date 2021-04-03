@@ -276,39 +276,49 @@
       incrementQuantity(product_id, quantity, price) {
         console.log(product_id);
 
-        let data = {
-          'product_id': product_id,
-          'update': true,
-          'quantity': parseInt(quantity) + 1,
-        }
+        for (let i = 0; i < this.products.length; i++) {
+          let products = this.products[i];
 
-        store.commit('increment', 1);
-        store.commit('changeTotalCost', parseFloat(price));
-
-        fetch('/api/add_to_cart/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRFTOKEN': '{{ csrf_token }}'
-            },
-            credentials: 'same-origin',
-            body: JSON.stringify(data)
-          })
-          .then((response) => {
-            console.log(response);
-
-            for (let i = 0; i < this.products.length; i++) {
-              let product = this.products[i];
-
-              if (product.id === product_id) {
-                this.products[i].quantity = parseInt(this.products[i].quantity) + 1;
-                this.products[i].total_price = parseInt(this.products[i].quantity) * parseFloat(this.products[i].price);
+          if (product.id === product_id) {
+            if (quantity < product.num_available) {
+              let data = {
+                'product_id': product_id,
+                'update': true,
+                'quantity': parseInt(quantity) + 1,
               }
-            }
-          })
-          .catch((error) => {
-            console.log('Error', error)
-          })
+
+              store.commit('increment', 1);
+              store.commit('changeTotalCost', parseFloat(price));
+
+              fetch('/api/add_to_cart/', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFTOKEN': '{{ csrf_token }}'
+                  },
+                  credentials: 'same-origin',
+                  body: JSON.stringify(data)
+                })
+                .then((response) => {
+                  console.log(response);
+
+                  for (let i = 0; i < this.products.length; i++) {
+                    let product = this.products[i];
+
+                    if (product.id === product_id) {
+                      this.products[i].quantity = parseInt(this.products[i].quantity) + 1;
+                      this.products[i].total_price = parseInt(this.products[i].quantity) * parseFloat(this.products[i].price);
+                    }
+                  }
+                })
+                .catch((error) => {
+                  console.log('Error', error)
+                })
+            }  else {
+            alert('No more available in stock!');
+          }
+          }
+        }
       },
       decrementQuantity(product_id, quantity, price) {
         console.log(product_id);

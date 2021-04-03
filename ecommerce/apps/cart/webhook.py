@@ -3,7 +3,10 @@ import json
 
 from django.conf import settings
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 from .cart import Cart
 
@@ -31,5 +34,15 @@ def webhook(request):
     order = Order.objects.get(payment_intent=payment_intent.id)
     order.paid = True
     order.save()
+
+    # Update number of available product. Inventory
+
+    for item in order.items.all():
+      product = item.product
+      product.num_available = product.num_available - item.quantity
+      product.save()
+
+    html = render_to_string('order_confirmation.html', {'order': order})
+    send_mail('Order confirmation', 'Your order has been sent!', 'noreply@ecommerce.com', ['mail@ecommerce.com', order.email], fail_silently=False, html_message=html)
 
   return HttpResponse(status=200)
