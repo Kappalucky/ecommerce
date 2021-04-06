@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 from apps.store.models import Product
 
@@ -32,6 +33,8 @@ class Order(models.Model):
     shipped_date = models.DateTimeField(blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=ORDERED)
 
+    user = models.ForeignKey(get_user_model(), related_name='orders', on_delete=models.SET_NULL, blank=True, null=True)
+
     class Meta:
         ordering = ('created_at',)
         verbose_name = 'Order'
@@ -39,6 +42,9 @@ class Order(models.Model):
 
     def __str__(self):
         return '%s' % self.first_name
+
+    def get_total_quantity(self):
+        return sum(int(item.quantity) for item in self.items.all())
 
 
 class OrderItem(models.Model):

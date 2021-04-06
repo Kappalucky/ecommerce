@@ -12,6 +12,7 @@ from .models import Product
 from apps.order.models import Order
 from apps.coupon.models import Coupon
 
+# For Order
 def create_checkout_session(request):
     data = json.loads(request.body)
     cart = Cart(request)

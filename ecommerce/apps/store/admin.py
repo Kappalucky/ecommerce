@@ -8,7 +8,7 @@ from django.contrib import admin
 # Local app imports
 from .models import Category, Product, ProductImage
 
-
+@admin.register(Category)
 class Categoryadmin(admin.ModelAdmin):
     """View details relating to Category objects"""
 
@@ -56,6 +56,5 @@ class Productadmin(admin.ModelAdmin):
     ordering = ('title', 'slug', 'price')
 
 
-admin.site.register(Category, Categoryadmin,)
 admin.site.register(Product, Productadmin,)
 admin.site.register(ProductImage)

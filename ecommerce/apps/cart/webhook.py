@@ -43,6 +43,6 @@ def webhook(request):
       product.save()
 
     html = render_to_string('order_confirmation.html', {'order': order})
-    send_mail('Order confirmation', 'Your order has been sent!', 'noreply@ecommerce.com', ['mail@ecommerce.com', order.email], fail_silently=False, html_message=html)
+    send_mail('Order confirmation', 'Your order is successful!', 'noreply@ecommerce.com', ['mail@ecommerce.com', order.email], fail_silently=False, html_message=html)
 
   return HttpResponse(status=200)

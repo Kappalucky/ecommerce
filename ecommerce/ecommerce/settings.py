@@ -32,6 +32,10 @@ ALLOWED_HOSTS = []
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = '1025'
 
+Login_URL = 'login'
+LOGIN_REDIRECT_URL = 'cart'
+LOUGOUT_REDIRECT_URL = 'frontpage'
+
 # STRIPE API KEYS
 STRIPE_API_KEY_PUBLISHABLE = "pk_test_"
 STRIPE_API_KEY_HIDDEN = "sk_test_"
@@ -56,6 +60,7 @@ INSTALLED_APPS = [
     'apps.cart',  # cart functionality
     'apps.order',   # order functionality
     'apps.coupon',  # coupon functionality
+    'apps.userprofile' # user profile functionality
 ]
 
 MIDDLEWARE = [
