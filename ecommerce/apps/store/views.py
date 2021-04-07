@@ -4,7 +4,7 @@
 
 # Python imports
 # Django imports
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Q
 
 # 3rd party apps
@@ -28,6 +28,9 @@ def product_detail(request, category_slug, slug):
 
     product = get_object_or_404(
         Product, slug=slug)
+
+    if product.parent:
+        return redirect('product_detail', category_slug=category_slug, slug=product.parent.slug)
 
     # Pretty much a serializer
     imagesstring = "{'thumbnail': '%s', 'image': '%s'}," % (product.thumbnail.url, product.image.url)
@@ -54,7 +57,7 @@ def category_detail(request, slug):
     '''List details for a category'''
 
     category = get_object_or_404(Category, slug=slug)
-    products = category.products.all()
+    products = category.products.filter(parent=None)
 
     context = {
         'category': category,

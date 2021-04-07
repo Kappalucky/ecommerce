@@ -59,6 +59,7 @@ class Product(models.Model):
         upload_to='uploads/', blank=True, null=True)
     category = models.ForeignKey(
         'category', related_name='products', on_delete=models.CASCADE)
+    parent = models.ForeignKey('self', related_name='variants', on_delete=models.CASCADE, blank=True, null=True)
 
     num_available = models.IntegerField(default=1)
 

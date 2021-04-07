@@ -29,32 +29,5 @@ class Categoryadmin(admin.ModelAdmin):
     search_fields = ('title', 'slug',)
     ordering = ('title', 'slug', 'ordering')
 
-
-class Productadmin(admin.ModelAdmin):
-    """View details relating to Product objects"""
-
-    #form = CategoryForm
-    model = Category
-    list_display = ('__str__', 'slug', 'price', 'category')
-    list_filter = ('title', 'price')
-    fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': (
-                'title',
-                'slug',
-                'description',
-                'price',
-                'category',
-                'is_featured',
-                'image',
-                'thumbnail'
-            ),
-        }),
-    )
-    search_fields = ('title', 'slug', 'price', 'category')
-    ordering = ('title', 'slug', 'price')
-
-
-admin.site.register(Product, Productadmin,)
+admin.site.register(Product)
 admin.site.register(ProductImage)
